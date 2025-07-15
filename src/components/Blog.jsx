@@ -1,5 +1,13 @@
 import React from "react";
 
+// Importa todas las imágenes
+import img1 from "../assets/comohacercurriculkum.jpg";
+import img2 from "../assets/darcurriculum.jpg";
+import img3 from "../assets/question.jpg";
+import img4 from "../assets/entrevista.jpg";
+import img5 from "../assets/cv.jpg";
+import img6 from "../assets/foto.jpg";
+
 const articulos = [
   {
     id: 1,
@@ -12,7 +20,7 @@ const articulos = [
         <li>Destaca logros, no solo tareas.</li>
       </ul>
     `,
-    imagen: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img1,
   },
   {
     id: 2,
@@ -25,7 +33,7 @@ const articulos = [
         <li>Demasiada información irrelevante.</li>
       </ul>
     `,
-    imagen: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img2,
   },
   {
     id: 3,
@@ -33,7 +41,7 @@ const articulos = [
     contenido: `
       <p>El formato PDF es ideal para enviar tu CV sin problemas de formato.</p>
     `,
-    imagen: "https://images.pexels.com/photos/313690/pexels-photo-313690.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img3,
   },
   {
     id: 4,
@@ -41,7 +49,7 @@ const articulos = [
     contenido: `
       <p>Si no tienes experiencia, destaca tus proyectos, prácticas o formación.</p>
     `,
-    imagen: "https://images.pexels.com/photos/4344860/pexels-photo-4344860.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img4,
   },
   {
     id: 5,
@@ -56,7 +64,7 @@ const articulos = [
         <li>Plantilla con foto</li>
       </ul>
     `,
-    imagen: "https://images.pexels.com/photos/7567442/pexels-photo-7567442.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img5,
   },
   {
     id: 6,
@@ -64,7 +72,7 @@ const articulos = [
     contenido: `
       <p>Depende del país y del sector. En España es común, pero no en EE. UU.</p>
     `,
-    imagen: "https://images.pexels.com/photos/4560080/pexels-photo-4560080.jpeg?auto=compress&cs=tinysrgb&h=200",
+    imagen: img6,
   },
 ];
 

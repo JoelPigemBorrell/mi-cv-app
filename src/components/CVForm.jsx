@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import html2pdf from "html2pdf.js";
 
+import plantillaClasica from "../assets/classica.PNG";
+import plantillaModerna from "../assets/moderna.PNG";
+import plantillaMinimalista from "../assets/Minimalista.PNG";
+import plantillaColorida from "../assets/Colorida.PNG";
+
 export default function CVForm({ cvData, setCvData }) {
   const [activeTab, setActiveTab] = useState("personal");
   const [photoPreview, setPhotoPreview] = useState(cvData.foto || null);
@@ -41,8 +46,54 @@ const handlePhotoChange = (e) => {
     html2pdf().set(opt).from(element).save();
   };
 
+   const plantillas = [
+    { id: "clasica", label: "Clásica", img: plantillaClasica },
+    { id: "moderna", label: "Moderna", img: plantillaModerna },
+    { id: "minimalista", label: "Minimalista", img: plantillaMinimalista },
+    { id: "colorida", label: "Colorida", img: plantillaColorida },
+  ];
+
+  const tabOrder = ["personal", "experiencia", "otros"];
+
+  const goToNextTab = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex < tabOrder.length - 1) {
+      setActiveTab(tabOrder[currentIndex + 1]);
+    }
+  };
+
+  const goToPreviousTab = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex > 0) {
+      setActiveTab(tabOrder[currentIndex - 1]);
+    }
+  };
+
+
   return (
     <>
+
+    
+     {/* Selector plantilla */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold">Elige plantilla</label>
+        <div className="d-flex gap-3 flex-wrap">
+          {plantillas.map((p) => (
+            <div
+              key={p.id}
+              className={`border rounded p-2 cursor-pointer ${cvData.plantilla === p.id ? "border-primary" : "border-secondary"}`}
+              onClick={() => setCvData({ ...cvData, plantilla: p.id })}
+              style={{ width: 100, textAlign: "center" }}
+              title={p.label}
+            >
+              <img src={p.img} alt={p.label} className="img-fluid rounded" />
+              <small>{p.label}</small>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
       <ul className="nav nav-tabs mb-3" role="tablist">
         <li className="nav-item" role="presentation">
           <button
@@ -71,34 +122,10 @@ const handlePhotoChange = (e) => {
             type="button"
             role="tab"
           >
-            Proyectos, Habilidades & Idiomas
+            Proyectos, Habilidades 
           </button>
         </li>
       </ul>
-
-      {/* Selector plantilla */}
-      <div className="mb-4">
-        <label className="form-label fw-semibold">Elige plantilla</label>
-        <div className="d-flex gap-3 flex-wrap">
-          {[
-            { id: "clasica", label: "Clásica", img: "/img/plantilla-clasica.png" },
-            { id: "moderna", label: "Moderna", img: "/img/plantilla-moderna.png" },
-            { id: "minimalista", label: "Minimalista", img: "/img/plantilla-minimalista.png" },
-            { id: "colorida", label: "Colorida", img: "/img/plantilla-colorida.png" },
-          ].map((p) => (
-            <div
-              key={p.id}
-              className={`border rounded p-2 cursor-pointer ${cvData.plantilla === p.id ? "border-primary" : "border-secondary"}`}
-              onClick={() => setCvData({ ...cvData, plantilla: p.id })}
-              style={{ width: 100, textAlign: "center" }}
-              title={p.label}
-            >
-              <img src={p.img} alt={p.label} className="img-fluid rounded" />
-              <small>{p.label}</small>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Formulario con cards */}
       <form className="bg-white p-4 rounded shadow-sm w-100">
@@ -287,17 +314,39 @@ const handlePhotoChange = (e) => {
             </div>
           </div>
         )}
+        {/* Botones de navegación entre secciones y descargar PDF */}
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
+          <div className="d-flex gap-3">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={goToPreviousTab}
+              disabled={activeTab === tabOrder[0]}
+            >
+              <i className="bi bi-arrow-left-circle me-2"></i> Anterior
+            </button>
 
-        {/* Botón descargar PDF */}
-        <div className="d-flex justify-content-end">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleDownloadPDF}
-          >
-            <i className="bi bi-file-earmark-pdf-fill me-2"></i> Descargar PDF
-          </button>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={goToNextTab}
+              disabled={activeTab === tabOrder[tabOrder.length - 1]}
+            >
+              Siguiente <i className="bi bi-arrow-right-circle ms-2"></i>
+            </button>
+          </div>
+
+          <div className="mt-2 mt-md-0">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleDownloadPDF}
+            >
+              <i className="bi bi-file-earmark-pdf-fill me-2"></i> Descargar PDF
+            </button>
+          </div>
         </div>
+
       </form>
     </>
   );

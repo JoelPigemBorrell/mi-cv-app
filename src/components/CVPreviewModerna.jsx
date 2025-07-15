@@ -3,23 +3,26 @@ import React from "react";
 export default function CVPreviewModerna({ cvData }) {
   return (
     <div
-      className="p-6 rounded shadow mx-auto"
+      className="p-8 rounded-lg shadow-lg mx-auto"
       style={{
-        maxWidth: 800,
+        maxWidth: 820,
         fontFamily: "'Poppins', sans-serif",
-        backgroundColor: "#f9fafb",
-        color: "#111",
+        backgroundColor: "#fefefe",
+        color: "#222",
         lineHeight: 1.6,
+        boxShadow: "0 10px 30px rgba(59, 130, 246, 0.15)",
       }}
     >
       {/* Header con imagen + info */}
       <header
-        className="mb-6 d-flex gap-4 align-items-center"
+        className="mb-8 d-flex gap-4 align-items-center"
         style={{
           display: "flex",
           alignItems: "center",
-          borderBottom: "4px solid #3b82f6",
-          paddingBottom: 16,
+          borderBottom: "4px solid #2563eb",
+          paddingBottom: 20,
+          flexWrap: "wrap",
+          gap: 20,
         }}
       >
         {cvData.foto && (
@@ -27,61 +30,105 @@ export default function CVPreviewModerna({ cvData }) {
             src={cvData.foto}
             alt="Foto de perfil"
             style={{
-              width: 100,
-              height: 100,
+              width: 110,
+              height: 110,
               objectFit: "cover",
               borderRadius: "50%",
-              border: "3px solid #3b82f6",
+              border: "4px solid #2563eb",
+              boxShadow: "0 0 10px rgba(37, 99, 235, 0.3)",
             }}
           />
         )}
 
-        <div>
+        <div style={{ flex: 1, minWidth: 250 }}>
           <h1
             style={{
-              fontSize: "2.8rem",
-              fontWeight: "800",
-              color: "#2563eb",
-              marginBottom: 6,
+              fontSize: "3rem",
+              fontWeight: "900",
+              color: "#1e40af",
+              marginBottom: 8,
             }}
           >
             {cvData.nombre || "Nombre Completo"}
           </h1>
-          <p style={{ fontSize: "1.2rem", fontWeight: "600", marginBottom: 6 }}>
+          <p
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: "600",
+              color: "#3b82f6",
+              marginBottom: 10,
+            }}
+          >
             {cvData.titulo || "Título Profesional"}
           </p>
-          <p style={{ fontSize: "0.95rem", color: "#555" }}>
-            {cvData.email} | {cvData.telefono} | {cvData.linkedin}
+          <p
+            style={{
+              fontSize: "1rem",
+              color: "#555",
+              wordWrap: "break-word",
+              lineHeight: 1.4,
+            }}
+          >
+            {cvData.email && <> {cvData.email} &nbsp;&nbsp;</>}
+            {cvData.telefono && <> {cvData.telefono} &nbsp;&nbsp;</>}
+            {cvData.linkedin && (
+              <a
+                href={cvData.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#2563eb", textDecoration: "underline" }}
+              >
+                LinkedIn
+              </a>
+            )}
           </p>
         </div>
       </header>
 
       {/* Cuerpo dividido */}
-      <div style={{ display: "flex", gap: 30, flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 36,
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
         {/* Sección izquierda */}
-        <section style={{ flex: 2, minWidth: 300 }}>
+        <section style={{ flex: 2, minWidth: 320 }}>
           {[
             ["Experiencia", cvData.experiencia],
             ["Educación", cvData.educacion],
             ["Proyectos", cvData.proyectos],
-          ].map(([title, content]) => (
-            <div key={title} style={{ marginBottom: 24 }}>
-              <h2
-                style={{
-                  color: "#2563eb",
-                  borderBottom: "2px solid #2563eb",
-                  paddingBottom: 6,
-                  marginBottom: 12,
-                  fontSize: "1.25rem",
-                }}
-              >
-                {title}
-              </h2>
-              <p style={{ whiteSpace: "pre-wrap", fontSize: "0.95rem", color: "#333" }}>
-                {content || ""}
-              </p>
-            </div>
-          ))}
+          ].map(
+            ([title, content]) =>
+              content && (
+                <div key={title} style={{ marginBottom: 32 }}>
+                  <h2
+                    style={{
+                      color: "#2563eb",
+                      borderBottom: "3px solid #2563eb",
+                      paddingBottom: 8,
+                      marginBottom: 16,
+                      fontSize: "1.4rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {title}
+                  </h2>
+                  <p
+                    style={{
+                      whiteSpace: "pre-wrap",
+                      fontSize: "1rem",
+                      color: "#333",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {content}
+                  </p>
+                </div>
+              )
+          )}
         </section>
 
         {/* Aside derecho */}
@@ -89,34 +136,74 @@ export default function CVPreviewModerna({ cvData }) {
           style={{
             flex: 1,
             backgroundColor: "#e0e7ff",
-            padding: 20,
-            borderRadius: 12,
-            minWidth: 220,
-            boxShadow: "inset 0 0 8px #c7d2fe",
+            padding: 24,
+            borderRadius: 16,
+            minWidth: 260,
+            boxShadow: "inset 0 0 12px #c7d2fe",
             height: "fit-content",
           }}
         >
-          <h3 style={{ color: "#1e40af", marginBottom: 10 }}>Habilidades</h3>
-          <ul style={{ paddingLeft: 18, marginBottom: 30 }}>
-            {(cvData.habilidades || "")
-              .split(",")
-              .map((h, i) => (
-                <li key={i} style={{ marginBottom: 4, fontSize: "0.95rem" }}>
-                  {h.trim()}
-                </li>
-              ))}
-          </ul>
+          {cvData.habilidades && (
+            <>
+              <h3
+                style={{
+                  color: "#1e40af",
+                  marginBottom: 14,
+                  fontSize: "1.3rem",
+                  fontWeight: "700",
+                }}
+              >
+                Habilidades
+              </h3>
+              <ul style={{ paddingLeft: 20, marginBottom: 30 }}>
+                {cvData.habilidades
+                  .split(",")
+                  .map((h, i) => (
+                    <li
+                      key={i}
+                      style={{
+                        marginBottom: 6,
+                        fontSize: "1rem",
+                        color: "#1f2937",
+                      }}
+                    >
+                      {h.trim()}
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
 
-          <h3 style={{ color: "#1e40af", marginBottom: 10 }}>Idiomas</h3>
-          <ul style={{ paddingLeft: 18 }}>
-            {(cvData.idiomas || "")
-              .split(",")
-              .map((i, idx) => (
-                <li key={idx} style={{ marginBottom: 4, fontSize: "0.95rem" }}>
-                  {i.trim()}
-                </li>
-              ))}
-          </ul>
+          {cvData.idiomas && (
+            <>
+              <h3
+                style={{
+                  color: "#1e40af",
+                  marginBottom: 14,
+                  fontSize: "1.3rem",
+                  fontWeight: "700",
+                }}
+              >
+                Idiomas
+              </h3>
+              <ul style={{ paddingLeft: 20 }}>
+                {cvData.idiomas
+                  .split(",")
+                  .map((i, idx) => (
+                    <li
+                      key={idx}
+                      style={{
+                        marginBottom: 6,
+                        fontSize: "1rem",
+                        color: "#1f2937",
+                      }}
+                    >
+                      {i.trim()}
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
         </aside>
       </div>
     </div>
