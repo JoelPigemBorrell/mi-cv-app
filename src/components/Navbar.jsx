@@ -4,8 +4,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light px-3 shadow-sm sticky-top">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+      <div className="container">
         <a className="navbar-brand d-flex align-items-center" href="/">
           {/* Aquí podrías poner un SVG o img logo pequeño */}
           <svg

@@ -13,7 +13,11 @@ const templates = {
 export default function CVPreview({ cvData }) {
   const Template = templates[cvData.plantilla] || CVPreviewClasica;
   return (
-    <div id="cv-preview" className="p-4 bg-white shadow-sm rounded">
+    <div
+      id="cv-preview"
+      className="p-4 bg-white shadow-sm rounded"
+      style={{ minHeight: "600px", maxWidth: "800px" }}
+    >
       <Template cvData={cvData} />
     </div>
   );

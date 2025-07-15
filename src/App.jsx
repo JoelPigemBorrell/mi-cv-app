@@ -31,33 +31,17 @@ export default function App() {
         <Route
           path="/"
           element={
-            <div className="container my-5">
-              <h1 className="mb-4">Creador de CV Profesional</h1>
+           <div className="container my-5 p-4 bg-white rounded shadow-sm">
+              <h1 className="mb-4 fw-bold text-primary">Creador de CV Profesional</h1>
 
               {/* Contenedor flex para form y preview */}
-              <div
-                className="flex-container"
-                style={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "flex-start",
-                   width: "100%",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div style={{ flex: 1, minWidth: 300 }}>
+              <div className="d-flex gap-4 flex-wrap align-items-start">
+                <div className="flex-fill min-w-300px">
                   <CVForm cvData={cvData} setCvData={setCvData} />
                 </div>
-                <div
-                  style={{
-                    flex: 1,
-                    minWidth: 300,
-                    borderLeft: "1px solid #ddd",
-                    paddingLeft: "2rem",
-                    boxSizing: "border-box",
-                  }}
-                >
-                  <h2>Vista previa</h2>
+
+                <div className="flex-fill min-w-300px border-start ps-4">
+                  <h2 className="mb-3 text-secondary">Vista previa</h2>
                   <CVPreview cvData={cvData} />
                 </div>
               </div>

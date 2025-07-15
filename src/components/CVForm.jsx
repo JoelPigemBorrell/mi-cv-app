@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import html2pdf from "html2pdf.js";
 
 import plantillaClasica from "../assets/classica.PNG";
@@ -10,26 +10,22 @@ export default function CVForm({ cvData, setCvData }) {
   const [activeTab, setActiveTab] = useState("personal");
   const [photoPreview, setPhotoPreview] = useState(cvData.foto || null);
 
-  // Validación simple email
   const isEmailValid = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Manejar subida de foto
-const handlePhotoChange = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    const base64 = reader.result;
-    setPhotoPreview(base64);
-    // Aquí guardas el base64 como la imagen en el cvData
-    setCvData({ ...cvData, foto: base64 });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setPhotoPreview(base64);
+      setCvData({ ...cvData, foto: base64 });
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
 
-  // Descargar PDF del CV (asumiendo que el componente CVPreview tiene id="cv-preview")
   const handleDownloadPDF = () => {
     const element = document.getElementById("cv-preview");
     if (!element) {
@@ -37,16 +33,16 @@ const handlePhotoChange = (e) => {
       return;
     }
     const opt = {
-      margin:       0.3,
-      filename:     `${cvData.nombre || "CV"}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      margin: 0.3,
+      filename: `${cvData.nombre || "CV"}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
     };
     html2pdf().set(opt).from(element).save();
   };
 
-   const plantillas = [
+  const plantillas = [
     { id: "clasica", label: "Clásica", img: plantillaClasica },
     { id: "moderna", label: "Moderna", img: plantillaModerna },
     { id: "minimalista", label: "Minimalista", img: plantillaMinimalista },
@@ -69,19 +65,18 @@ const handlePhotoChange = (e) => {
     }
   };
 
-
   return (
     <>
-
-    
-     {/* Selector plantilla */}
+      {/* Selector plantilla */}
       <div className="mb-4">
         <label className="form-label fw-semibold">Elige plantilla</label>
         <div className="d-flex gap-3 flex-wrap">
           {plantillas.map((p) => (
             <div
               key={p.id}
-              className={`border rounded p-2 cursor-pointer ${cvData.plantilla === p.id ? "border-primary" : "border-secondary"}`}
+              className={`border rounded p-2 cursor-pointer ${
+                cvData.plantilla === p.id ? "border-primary" : "border-secondary"
+              }`}
               onClick={() => setCvData({ ...cvData, plantilla: p.id })}
               style={{ width: 100, textAlign: "center" }}
               title={p.label}
@@ -93,7 +88,7 @@ const handlePhotoChange = (e) => {
         </div>
       </div>
 
-
+      {/* Pestañas */}
       <ul className="nav nav-tabs mb-3" role="tablist">
         <li className="nav-item" role="presentation">
           <button
@@ -122,14 +117,13 @@ const handlePhotoChange = (e) => {
             type="button"
             role="tab"
           >
-            Proyectos, Habilidades 
+            Proyectos, Habilidades
           </button>
         </li>
       </ul>
 
-      {/* Formulario con cards */}
+      {/* Formulario */}
       <form className="bg-white p-4 rounded shadow-sm w-100">
-
         {activeTab === "personal" && (
           <div className="card mb-4 shadow-sm">
             <div className="card-body">
@@ -195,14 +189,16 @@ const handlePhotoChange = (e) => {
                   </span>
                   <input
                     type="email"
-                    className={`form-control ${cvData.email && !isEmailValid(cvData.email) ? "is-invalid" : ""}`}
+                    className={`form-control ${
+                      cvData.email && !isEmailValid(cvData.email) ? "is-invalid" : ""
+                    }`}
                     name="email"
                     value={cvData.email}
                     onChange={(e) => setCvData({ ...cvData, email: e.target.value })}
-                    placeholder="ejemplo@email.com"
+                    placeholder="ejemplo@correo.com"
                     required
                   />
-                  <div className="invalid-feedback">Introduce un email válido.</div>
+                  <div className="invalid-feedback">Email inválido</div>
                 </div>
               </div>
 
@@ -230,12 +226,12 @@ const handlePhotoChange = (e) => {
                     <i className="bi bi-linkedin"></i>
                   </span>
                   <input
-                    type="text"
+                    type="url"
                     className="form-control"
                     name="linkedin"
                     value={cvData.linkedin}
                     onChange={(e) => setCvData({ ...cvData, linkedin: e.target.value })}
-                    placeholder="linkedin.com/tu-perfil"
+                    placeholder="https://linkedin.com/in/usuario"
                   />
                 </div>
               </div>
@@ -247,14 +243,13 @@ const handlePhotoChange = (e) => {
           <div className="card mb-4 shadow-sm">
             <div className="card-body">
               <div className="mb-3">
-                <label className="form-label fw-semibold">Experiencia laboral</label>
+                <label className="form-label fw-semibold">Experiencia</label>
                 <textarea
                   className="form-control"
-                  name="experiencia"
-                  rows="4"
+                  rows="6"
                   value={cvData.experiencia}
                   onChange={(e) => setCvData({ ...cvData, experiencia: e.target.value })}
-                  placeholder="Describe tu experiencia laboral..."
+                  placeholder="Ej: Desarrollador Frontend en XYZ (2022-2024)..."
                 />
               </div>
 
@@ -262,11 +257,10 @@ const handlePhotoChange = (e) => {
                 <label className="form-label fw-semibold">Educación</label>
                 <textarea
                   className="form-control"
-                  name="educacion"
-                  rows="3"
+                  rows="4"
                   value={cvData.educacion}
                   onChange={(e) => setCvData({ ...cvData, educacion: e.target.value })}
-                  placeholder="Tu formación académica..."
+                  placeholder="Ej: Grado en Ingeniería Informática (2020-2024)..."
                 />
               </div>
             </div>
@@ -280,73 +274,67 @@ const handlePhotoChange = (e) => {
                 <label className="form-label fw-semibold">Proyectos</label>
                 <textarea
                   className="form-control"
-                  name="proyectos"
-                  rows="3"
+                  rows="4"
                   value={cvData.proyectos}
                   onChange={(e) => setCvData({ ...cvData, proyectos: e.target.value })}
-                  placeholder="Proyectos relevantes..."
+                  placeholder="Describe proyectos destacados..."
                 />
               </div>
 
               <div className="mb-3">
-                <label className="form-label fw-semibold">Habilidades (separadas por coma)</label>
-                <input
-                  type="text"
+                <label className="form-label fw-semibold">Habilidades</label>
+                <textarea
                   className="form-control"
-                  name="habilidades"
+                  rows="4"
                   value={cvData.habilidades}
                   onChange={(e) => setCvData({ ...cvData, habilidades: e.target.value })}
-                  placeholder="JavaScript, React, SQL..."
+                  placeholder="Ej: JavaScript, React, Bootstrap..."
                 />
               </div>
 
               <div className="mb-3">
-                <label className="form-label fw-semibold">Idiomas (separados por coma)</label>
-                <input
-                  type="text"
+                <label className="form-label fw-semibold">Idiomas</label>
+                <textarea
                   className="form-control"
-                  name="idiomas"
+                  rows="3"
                   value={cvData.idiomas}
                   onChange={(e) => setCvData({ ...cvData, idiomas: e.target.value })}
-                  placeholder="Español, Inglés, Francés..."
+                  placeholder="Ej: Español (nativo), Inglés (avanzado)..."
                 />
               </div>
             </div>
           </div>
         )}
-        {/* Botones de navegación entre secciones y descargar PDF */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
-          <div className="d-flex gap-3">
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={goToPreviousTab}
-              disabled={activeTab === tabOrder[0]}
-            >
-              <i className="bi bi-arrow-left-circle me-2"></i> Anterior
-            </button>
 
+        {/* Botones para navegación y descarga */}
+        <div className="d-flex justify-content-between">
+          <button
+            type="button"
+            className="btn btn-outline-secondary shadow-sm"
+            onClick={goToPreviousTab}
+            disabled={activeTab === "personal"}
+          >
+            Anterior
+          </button>
+
+          {activeTab !== "otros" ? (
             <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn-primary shadow-sm"
               onClick={goToNextTab}
-              disabled={activeTab === tabOrder[tabOrder.length - 1]}
             >
-              Siguiente <i className="bi bi-arrow-right-circle ms-2"></i>
+              Siguiente
             </button>
-          </div>
-
-          <div className="mt-2 mt-md-0">
+          ) : (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-success shadow-sm"
               onClick={handleDownloadPDF}
             >
-              <i className="bi bi-file-earmark-pdf-fill me-2"></i> Descargar PDF
+              Descargar PDF
             </button>
-          </div>
+          )}
         </div>
-
       </form>
     </>
   );
