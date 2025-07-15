@@ -10,16 +10,19 @@ export default function CVForm({ cvData, setCvData }) {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   // Manejar subida de foto
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setCvData({ ...cvData, foto: file });
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoPreview(reader.result);
-    };
-    reader.readAsDataURL(file);
+const handlePhotoChange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64 = reader.result;
+    setPhotoPreview(base64);
+    // Aquí guardas el base64 como la imagen en el cvData
+    setCvData({ ...cvData, foto: base64 });
   };
+  reader.readAsDataURL(file);
+};
 
   // Descargar PDF del CV (asumiendo que el componente CVPreview tiene id="cv-preview")
   const handleDownloadPDF = () => {

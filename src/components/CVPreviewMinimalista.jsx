@@ -15,17 +15,23 @@ export default function CVPreviewMinimalista({ cvData }) {
       }}
     >
       <header style={{ textAlign: "center", marginBottom: 25 }}>
+        {cvData.foto && (
+          <img
+            src={cvData.foto}
+            alt="Foto de perfil"
+            style={{
+              width: 90,
+              height: 90,
+              borderRadius: "50%",
+              objectFit: "cover",
+              marginBottom: 10,
+            }}
+          />
+        )}
         <h1 style={{ fontWeight: "700", fontSize: "2.5rem", marginBottom: 6 }}>
           {cvData.nombre || "Nombre Completo"}
         </h1>
-        <p
-          style={{
-            fontWeight: "500",
-            fontSize: "1.1rem",
-            color: "#555",
-            marginBottom: 6,
-          }}
-        >
+        <p style={{ fontWeight: "500", fontSize: "1.1rem", color: "#555", marginBottom: 6 }}>
           {cvData.titulo || "Título Profesional"}
         </p>
         <p style={{ fontSize: "0.9rem", color: "#666", marginBottom: 4 }}>
@@ -34,7 +40,6 @@ export default function CVPreviewMinimalista({ cvData }) {
         <p style={{ fontSize: "0.9rem", color: "#666" }}>{cvData.linkedin}</p>
       </header>
 
-      {/** Secciones con bordes sutiles y buena separación */}
       {["Experiencia", "Educación", "Proyectos"].map((section) => (
         <section
           key={section}
@@ -62,32 +67,23 @@ export default function CVPreviewMinimalista({ cvData }) {
         </section>
       ))}
 
-      <section
-        style={{
-          borderTop: "1px solid #ccc",
-          paddingTop: 12,
-          marginTop: 15,
-        }}
-      >
-        <h2 style={{ fontWeight: "600", fontSize: "1.2rem", marginBottom: 8 }}>
-          Habilidades
-        </h2>
-        <p style={{ color: "#444", fontSize: "0.95rem" }}>{cvData.habilidades}</p>
-      </section>
-
-      <section
-        style={{
-          borderTop: "1px solid #ccc",
-          paddingTop: 12,
-          marginTop: 15,
-          marginBottom: 10,
-        }}
-      >
-        <h2 style={{ fontWeight: "600", fontSize: "1.2rem", marginBottom: 8 }}>
-          Idiomas
-        </h2>
-        <p style={{ color: "#444", fontSize: "0.95rem" }}>{cvData.idiomas}</p>
-      </section>
+      {["Habilidades", "Idiomas"].map((section) => (
+        <section
+          key={section}
+          style={{
+            borderTop: "1px solid #ccc",
+            paddingTop: 12,
+            marginTop: 15,
+          }}
+        >
+          <h2 style={{ fontWeight: "600", fontSize: "1.2rem", marginBottom: 8 }}>
+            {section}
+          </h2>
+          <p style={{ color: "#444", fontSize: "0.95rem" }}>
+            {cvData[section.toLowerCase()]}
+          </p>
+        </section>
+      ))}
     </div>
   );
 }
